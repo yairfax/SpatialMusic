@@ -41,6 +41,8 @@
 	</array>
 	<key>NSMotionUsageDescription</key>
 	<string>Allow app to access AirPod Pro&apos;s motion data</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Allow app to access your Music library</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

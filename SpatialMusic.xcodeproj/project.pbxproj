@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E794E25B6240F00AA5BA5 /* SongPicker.swift */; };
 		B054167925B4FBF2006198BF /* Head.scn in Resources */ = {isa = PBXBuildFile; fileRef = B054167825B4FBF2006198BF /* Head.scn */; };
-		B054168225B50468006198BF /* head.OBJ in Resources */ = {isa = PBXBuildFile; fileRef = B054168125B50468006198BF /* head.OBJ */; };
 		B07DD30225B1E8C00073482C /* SpatialMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */; };
 		B07DD30425B1E8C00073482C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD30325B1E8C00073482C /* ContentView.swift */; };
 		B07DD30625B1E8C40073482C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B07DD30525B1E8C40073482C /* Assets.xcassets */; };
@@ -17,6 +17,7 @@
 		B07DD31F25B1E8C40073482C /* SpatialMusicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD31E25B1E8C40073482C /* SpatialMusicUITests.swift */; };
 		B09997B525B4BBBD00E30D4F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09997B425B4BBBD00E30D4F /* ImagePicker.swift */; };
 		B09997BA25B4C4C200E30D4F /* HeadphoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09997B925B4C4C200E30D4F /* HeadphoneManager.swift */; };
+		B0CD9A0E25B66D2B0048B0F0 /* head.OBJ in Resources */ = {isa = PBXBuildFile; fileRef = B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B02E794E25B6240F00AA5BA5 /* SongPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongPicker.swift; sourceTree = "<group>"; };
 		B054167825B4FBF2006198BF /* Head.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Head.scn; sourceTree = "<group>"; };
-		B054168125B50468006198BF /* head.OBJ */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = head.OBJ; sourceTree = "<group>"; };
 		B07DD2FE25B1E8C00073482C /* SpatialMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialMusicApp.swift; sourceTree = "<group>"; };
 		B07DD30325B1E8C00073482C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		B07DD32025B1E8C40073482C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B09997B425B4BBBD00E30D4F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B09997B925B4C4C200E30D4F /* HeadphoneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneManager.swift; sourceTree = "<group>"; };
+		B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = head.OBJ; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +107,8 @@
 			children = (
 				B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */,
 				B07DD30325B1E8C00073482C /* ContentView.swift */,
-				B054168125B50468006198BF /* head.OBJ */,
+				B02E794E25B6240F00AA5BA5 /* SongPicker.swift */,
+				B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */,
 				B054167825B4FBF2006198BF /* Head.scn */,
 				B09997B425B4BBBD00E30D4F /* ImagePicker.swift */,
 				B09997B925B4C4C200E30D4F /* HeadphoneManager.swift */,
@@ -248,7 +251,7 @@
 				B054167925B4FBF2006198BF /* Head.scn in Resources */,
 				B07DD30925B1E8C40073482C /* Preview Assets.xcassets in Resources */,
 				B07DD30625B1E8C40073482C /* Assets.xcassets in Resources */,
-				B054168225B50468006198BF /* head.OBJ in Resources */,
+				B0CD9A0E25B66D2B0048B0F0 /* head.OBJ in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +278,7 @@
 			files = (
 				B09997BA25B4C4C200E30D4F /* HeadphoneManager.swift in Sources */,
 				B09997B525B4BBBD00E30D4F /* ImagePicker.swift in Sources */,
+				B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */,
 				B07DD30425B1E8C00073482C /* ContentView.swift in Sources */,
 				B07DD30225B1E8C00073482C /* SpatialMusicApp.swift in Sources */,
 			);

@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 import SceneKit
+import MediaPlayer
 
 struct ContentView: View {
 //    @State private var image: Image?
@@ -19,6 +20,9 @@ struct ContentView: View {
     @State private var scene = SCNScene(named: "Head.scn")
     @State private var recalibrating = false
     @State private var bias = simd_float4x4(SCNMatrix4Identity)
+    
+    @State private var showingSongPicker = false
+    @State private var pickedSong: MPMediaItem?
 //    func loadImage() {
 //        guard let inputImage = inputImage else { return }
 //        image = Image(uiImage: inputImage)
@@ -38,13 +42,18 @@ struct ContentView: View {
 //            ImagePicker(image: self.$inputImage)
 //        }
         VStack{
-            SceneView(
-                scene: scene
-            )
+            SceneView(scene: scene)
+                .contextMenu {
+                    Button("Recalibrate") {
+                        recalibrating = true
+                    }
+                }
 //            Text(rotationText)
             Text(state)
                 .padding()
-            Button("Recalibrate", action: recalibrate)
+            Button("Pick a Song") {
+                self.showingSongPicker = true
+            }
             HeadphoneManager(
                 text: self.$rotationText,
                 state: self.$state,
@@ -52,10 +61,10 @@ struct ContentView: View {
                 headNode: self.scene?.rootNode.childNode(withName: "head", recursively: false),
                 bias: self.$bias)
         }
-    }
-    
-    func recalibrate() {
-         recalibrating = true
+        .sheet(isPresented: $showingSongPicker) {
+            SongPicker(pickedSong: self.$pickedSong)
+        }
+
     }
 }
 
