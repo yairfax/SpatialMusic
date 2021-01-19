@@ -27,25 +27,22 @@ extension simd_float4x4 {
 }
 
 struct HeadphoneManager: UIViewControllerRepresentable {
-    @Binding var text: String
     @Binding var state: String
-    @Binding var recalibrating: Bool
-    var headNode: SCNNode?
+    @Binding var recalibrate: Bool
+    @Binding var clearCalibration: Bool
     
-    @Binding var bias: simd_float4x4
-    var initPos: simd_float4x4
+    @State var bias = simd_float4x4(1)
+
+    var transformations: [UpdateTransformation]
     
     let motionManager = CMHeadphoneMotionManager()
     
-    init(text: Binding<String>, state: Binding<String>, recalibrating: Binding<Bool>, headNode: SCNNode?, bias: Binding<simd_float4x4>) {
-        self._text = text
-        self._state = state
-        self._recalibrating = recalibrating
-        self.headNode = headNode
-        self._bias = bias
-        
-        initPos = simd_float4x4(headNode!.transform)
-    }
+//    init(state: Binding<String>, recalibrating: Binding<Bool>, transformations: [UpdateTransformation]) {
+//        self._state = state
+//        self._recalibrate = recalibrate
+//
+//        self.transformations = transformations
+//    }
     
     func makeUIViewController(context: Context) -> UIViewController {
         motionManager.delegate = context.coordinator
@@ -59,12 +56,14 @@ struct HeadphoneManager: UIViewControllerRepresentable {
     
     func motionHandler(motion: CMDeviceMotion?, error: Error?) {
         let mat = motion?.attitude.rotationMatrix
-        text = matToString(mat: motion?.attitude.rotationMatrix)
-        guard let transform = doRotation(convertMatrix(mat)) else {
+        guard let trnmtn = doRotation(convertMatrix(mat)) else {
             state = "Error"
             return
         }
-        headNode?.transform = SCNMatrix4(transform)
+        
+        for transform in transformations {
+            transform(trnmtn)
+        }
     }
     
     func convertMatrix(_ src: CMRotationMatrix?) -> simd_float4x4? {
@@ -79,26 +78,17 @@ struct HeadphoneManager: UIViewControllerRepresentable {
             return nil
         }
         
-        let transRot = flip * rot * flip.inverse
+        let transRot = flip.inverse * rot * flip
         
-        if (recalibrating == true) {
+        if (recalibrate) {
             bias = transRot.inverse
-            recalibrating = false
+            recalibrate = false
+        } else if (clearCalibration) {
+            bias = simd_float4x4(1)
+            clearCalibration = false
         }
 
-        return transRot * bias * initPos
-    }
-    
-    func matToString(mat: CMRotationMatrix?) -> String{
-        guard let m = mat else {
-            return "No rotation data available"
-        }
-        let vals = [[m.m11, m.m12, m.m13], [m.m21, m.m22, m.m23], [m.m31, m.m32, m.m33]]
-        return vals.reduce("", {a, row in "\(a)\n[\(row.reduce("", {acc, val in "\(acc) \(String(format: "%.2f", val))"}))]" } )
-    }
-    
-    func formatDouble(_ num: Double) -> String {
-        return String(format: "%.2f", num)
+        return transRot * bias
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
