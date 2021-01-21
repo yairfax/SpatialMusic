@@ -18,9 +18,9 @@ let flip = simd_float4x4(columns: (x, y, z, w))
 
 extension simd_float4x4 {
     init(_ m: CMRotationMatrix) {
-        let x = simd_float4(Float(m.m11), Float(m.m21), Float(m.m31), 0)
-        let y = simd_float4(Float(m.m12), Float(m.m22), Float(m.m32), 0)
-        let z = simd_float4(Float(m.m13), Float(m.m23), Float(m.m33), 0)
+        let x = simd_float4(Float(m.m11), Float(m.m12), Float(m.m13), 0)
+        let y = simd_float4(Float(m.m21), Float(m.m22), Float(m.m23), 0)
+        let z = simd_float4(Float(m.m31), Float(m.m32), Float(m.m33), 0)
         let w = simd_float4(           0,            0,            0, 1)
         self.init(columns: (x, y, z, w))
     }
@@ -30,19 +30,11 @@ struct HeadphoneManager: UIViewControllerRepresentable {
     @Binding var state: String
     @Binding var recalibrate: Bool
     @Binding var clearCalibration: Bool
+    @Binding var transformers: [Transformer]
     
     @State var bias = simd_float4x4(1)
 
-    var transformations: [UpdateTransformation]
-    
     let motionManager = CMHeadphoneMotionManager()
-    
-//    init(state: Binding<String>, recalibrating: Binding<Bool>, transformations: [UpdateTransformation]) {
-//        self._state = state
-//        self._recalibrate = recalibrate
-//
-//        self.transformations = transformations
-//    }
     
     func makeUIViewController(context: Context) -> UIViewController {
         motionManager.delegate = context.coordinator
@@ -56,39 +48,29 @@ struct HeadphoneManager: UIViewControllerRepresentable {
     
     func motionHandler(motion: CMDeviceMotion?, error: Error?) {
         let mat = motion?.attitude.rotationMatrix
-        guard let trnmtn = doRotation(convertMatrix(mat)) else {
-            state = "Error"
-            return
-        }
+        let transMatrix = doRotation(convertMatrix(mat))
         
-        for transform in transformations {
-            transform(trnmtn)
+        for transformer in transformers {
+            transformer(transMatrix)
         }
     }
     
-    func convertMatrix(_ src: CMRotationMatrix?) -> simd_float4x4? {
-        guard let m = src else {
-            return nil
-        }
-        return simd_float4x4(m)
+    func convertMatrix(_ src: CMRotationMatrix?) -> simd_float4x4 {
+        return simd_float4x4(src!)
     }
     
-    func doRotation(_ rotation: simd_float4x4?) -> simd_float4x4? {
-        guard let rot = rotation else {
-            return nil
-        }
-        
-        let transRot = flip.inverse * rot * flip
+    func doRotation(_ rotation: simd_float4x4) -> simd_float4x4 {
+        let fullRotation = flip * rotation * flip
         
         if (recalibrate) {
-            bias = transRot.inverse
+            bias = fullRotation.inverse
             recalibrate = false
         } else if (clearCalibration) {
             bias = simd_float4x4(1)
             clearCalibration = false
         }
 
-        return transRot * bias
+        return bias * fullRotation
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

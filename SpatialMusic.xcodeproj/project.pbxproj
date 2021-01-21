@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B011EC3725B8DC0300C0E0E9 /* HeadSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */; };
 		B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E794E25B6240F00AA5BA5 /* SongPicker.swift */; };
 		B054167925B4FBF2006198BF /* Head.scn in Resources */ = {isa = PBXBuildFile; fileRef = B054167825B4FBF2006198BF /* Head.scn */; };
 		B07DD30225B1E8C00073482C /* SpatialMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadSceneView.swift; sourceTree = "<group>"; };
 		B02E794E25B6240F00AA5BA5 /* SongPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongPicker.swift; sourceTree = "<group>"; };
 		B054167825B4FBF2006198BF /* Head.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Head.scn; sourceTree = "<group>"; };
 		B07DD2FE25B1E8C00073482C /* SpatialMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 			children = (
 				B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */,
 				B07DD30325B1E8C00073482C /* ContentView.swift */,
+				B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */,
 				B02E794E25B6240F00AA5BA5 /* SongPicker.swift */,
 				B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */,
 				B054167825B4FBF2006198BF /* Head.scn */,
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B09997BA25B4C4C200E30D4F /* HeadphoneManager.swift in Sources */,
+				B011EC3725B8DC0300C0E0E9 /* HeadSceneView.swift in Sources */,
 				B09997B525B4BBBD00E30D4F /* ImagePicker.swift in Sources */,
 				B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */,
 				B07DD30425B1E8C00073482C /* ContentView.swift in Sources */,
