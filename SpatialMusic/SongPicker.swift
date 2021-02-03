@@ -40,7 +40,6 @@ struct SongPicker: UIViewControllerRepresentable {
         
         func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems: MPMediaItemCollection) {
             parent.pickedSong = didPickMediaItems.items[0]
-            print(parent.pickedSong!.value(forProperty: MPMediaItemPropertyAssetURL))
             parent.presentationMode.wrappedValue.dismiss()
         }
         

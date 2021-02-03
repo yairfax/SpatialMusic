@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		B011EC3725B8DC0300C0E0E9 /* HeadSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */; };
 		B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E794E25B6240F00AA5BA5 /* SongPicker.swift */; };
 		B054167925B4FBF2006198BF /* Head.scn in Resources */ = {isa = PBXBuildFile; fileRef = B054167825B4FBF2006198BF /* Head.scn */; };
+		B06D50B425B9F11B00BF40B4 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06D50B325B9F11B00BF40B4 /* MusicPlayer.swift */; };
 		B07DD30225B1E8C00073482C /* SpatialMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */; };
 		B07DD30425B1E8C00073482C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07DD30325B1E8C00073482C /* ContentView.swift */; };
 		B07DD30625B1E8C40073482C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B07DD30525B1E8C40073482C /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 		B09997B525B4BBBD00E30D4F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09997B425B4BBBD00E30D4F /* ImagePicker.swift */; };
 		B09997BA25B4C4C200E30D4F /* HeadphoneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09997B925B4C4C200E30D4F /* HeadphoneManager.swift */; };
 		B0CD9A0E25B66D2B0048B0F0 /* head.OBJ in Resources */ = {isa = PBXBuildFile; fileRef = B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */; };
+		B0FE0F3B25C33F09007F04A5 /* DisplayLink in Frameworks */ = {isa = PBXBuildFile; productRef = B0FE0F3A25C33F09007F04A5 /* DisplayLink */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,7 @@
 		B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadSceneView.swift; sourceTree = "<group>"; };
 		B02E794E25B6240F00AA5BA5 /* SongPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongPicker.swift; sourceTree = "<group>"; };
 		B054167825B4FBF2006198BF /* Head.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Head.scn; sourceTree = "<group>"; };
+		B06D50B325B9F11B00BF40B4 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		B07DD2FE25B1E8C00073482C /* SpatialMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpatialMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialMusicApp.swift; sourceTree = "<group>"; };
 		B07DD30325B1E8C00073482C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0FE0F3B25C33F09007F04A5 /* DisplayLink in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +113,7 @@
 			children = (
 				B07DD30125B1E8C00073482C /* SpatialMusicApp.swift */,
 				B07DD30325B1E8C00073482C /* ContentView.swift */,
+				B06D50B325B9F11B00BF40B4 /* MusicPlayer.swift */,
 				B011EC3625B8DC0300C0E0E9 /* HeadSceneView.swift */,
 				B02E794E25B6240F00AA5BA5 /* SongPicker.swift */,
 				B0CD9A0D25B66D2A0048B0F0 /* head.OBJ */,
@@ -164,6 +169,9 @@
 			dependencies = (
 			);
 			name = SpatialMusic;
+			packageProductDependencies = (
+				B0FE0F3A25C33F09007F04A5 /* DisplayLink */,
+			);
 			productName = SpatialMusic;
 			productReference = B07DD2FE25B1E8C00073482C /* SpatialMusic.app */;
 			productType = "com.apple.product-type.application";
@@ -235,6 +243,9 @@
 				Base,
 			);
 			mainGroup = B07DD2F525B1E8C00073482C;
+			packageReferences = (
+				B0FE0F3925C33F09007F04A5 /* XCRemoteSwiftPackageReference "DisplayLink" */,
+			);
 			productRefGroup = B07DD2FF25B1E8C00073482C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -283,6 +294,7 @@
 				B011EC3725B8DC0300C0E0E9 /* HeadSceneView.swift in Sources */,
 				B09997B525B4BBBD00E30D4F /* ImagePicker.swift in Sources */,
 				B02E794F25B6240F00AA5BA5 /* SongPicker.swift in Sources */,
+				B06D50B425B9F11B00BF40B4 /* MusicPlayer.swift in Sources */,
 				B07DD30425B1E8C00073482C /* ContentView.swift in Sources */,
 				B07DD30225B1E8C00073482C /* SpatialMusicApp.swift in Sources */,
 			);
@@ -604,6 +616,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B0FE0F3925C33F09007F04A5 /* XCRemoteSwiftPackageReference "DisplayLink" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/timdonnelly/DisplayLink";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B0FE0F3A25C33F09007F04A5 /* DisplayLink */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0FE0F3925C33F09007F04A5 /* XCRemoteSwiftPackageReference "DisplayLink" */;
+			productName = DisplayLink;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B07DD2F625B1E8C00073482C /* Project object */;
 }

@@ -10,19 +10,19 @@ import SwiftUI
 import CoreMotion
 import SceneKit
 
-let x = simd_float4(1, 0, 0, 0)
-let y = simd_float4(0, 0, 1, 0)
-let z = simd_float4(0, 1, 0, 0)
-let w = simd_float4(0, 0, 0, 1)
-let flip = simd_float4x4(columns: (x, y, z, w))
+let flip = simd_float4x4(columns: (
+    simd_float4(1, 0, 0, 0),
+    simd_float4(0, 0, 1, 0),
+    simd_float4(0, 1, 0, 0),
+    simd_float4(0, 0, 0, 1)))
 
 extension simd_float4x4 {
     init(_ m: CMRotationMatrix) {
-        let x = simd_float4(Float(m.m11), Float(m.m12), Float(m.m13), 0)
-        let y = simd_float4(Float(m.m21), Float(m.m22), Float(m.m23), 0)
-        let z = simd_float4(Float(m.m31), Float(m.m32), Float(m.m33), 0)
-        let w = simd_float4(           0,            0,            0, 1)
-        self.init(columns: (x, y, z, w))
+        self.init(columns: (
+            simd_float4(Float(m.m11), Float(m.m12), Float(m.m13), 0),
+            simd_float4(Float(m.m21), Float(m.m22), Float(m.m23), 0),
+            simd_float4(Float(m.m31), Float(m.m32), Float(m.m33), 0),
+            simd_float4(           0,            0,            0, 1)))
     }
 }
 

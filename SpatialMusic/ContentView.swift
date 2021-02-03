@@ -25,12 +25,12 @@ struct ContentView: View {
     @State private var pickedSong: MPMediaItem?
     
     @State private var transformers: [Transformer] = []
-        
+
 //    func loadImage() {
 //        guard let inputImage = inputImage else { return }
 //        image = Image(uiImage: inputImage)
 //    }
-        
+
     var body: some View {
 //        VStack{
 //            image?
@@ -50,19 +50,19 @@ struct ContentView: View {
                 clearCalibration: self.$clearCalibration,
                 transformers: self.$transformers
             )
-            RotationText(
-                transformers: self.$transformers
-            )
+            RotationText(transformers: self.$transformers)
             Text(state)
                 .padding()
             Button("Pick a Song") {
                 self.showingSongPicker = true
             }
+            MusicPlayer(pickedSong: pickedSong)
             HeadphoneManager(
                 state: self.$state,
                 recalibrate: self.$recalibrate,
                 clearCalibration: self.$clearCalibration,
                 transformers: self.$transformers)
+            
         }
         .sheet(isPresented: $showingSongPicker) {
             SongPicker(pickedSong: self.$pickedSong)

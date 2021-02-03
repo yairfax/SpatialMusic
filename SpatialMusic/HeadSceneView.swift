@@ -16,7 +16,7 @@ struct HeadSceneView: View {
     
     @State var scene = SCNScene(named: "Head.scn")
     var initHeadPos = simd_float4x4()
-
+    
     init(recalibrate: Binding<Bool>, clearCalibration: Binding<Bool>, transformers: Binding<[Transformer]>) {
         self._recalibrate = recalibrate
         self._clearCalibration = clearCalibration
