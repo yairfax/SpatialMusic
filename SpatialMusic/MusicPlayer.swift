@@ -15,15 +15,15 @@ struct MusicPlayer: View {
     private var audioFile: AVAudioFile?
     
     // MARK: State Vars
-    
     @State private var seekPos = 0.0
     @State private var offsetFrame: AVAudioFramePosition = 0
-    
-    private var playingText = "Not Playing"
     @State private var timeString = "0:00"
     
     @State private var updaterActive = false
     @State private var paused = true
+    
+    // MARK: Struct Vars
+    private var playingText = "Not Playing"
     private var started = false
     
     let player = AVAudioPlayerNode()
@@ -99,6 +99,10 @@ struct MusicPlayer: View {
     func updateTicker(_ frame: DisplayLink.Frame) {
         seekPos = Double(currentFrame) / Double(songSampleLength)
         timeString = formatTime(Int(floor(seekPos * songLength)))
+        
+        if (seekPos > 0.99) {
+            songEnd()
+        }
     }
     
     func formatTime(_ numSecs: Int) -> String {
@@ -140,6 +144,27 @@ struct MusicPlayer: View {
         }
         updaterActive = !pressed
     }
+        
+    func resetValues() {
+        timeString = "0:00"
+        offsetFrame = 0
+        seekPos = 0
+        updaterActive = false
+        paused = true
+    }
+    
+    func songEnd() {
+        resetValues()
+        if let file = audioFile {
+            player.scheduleFile(file, at: nil)
+        }
+    }
+    
+    func tearDown(_ song: MPMediaItem?) {
+        player.stop()
+        engine.stop()
+        resetValues()
+    }
     
     // MARK: Body Definition
     var body: some View {
@@ -159,6 +184,7 @@ struct MusicPlayer: View {
             Text(playingText)
         }
         .onFrame(isActive: updaterActive, updateTicker)
-//        .onAppear(perform: onAppear)
+        .onChange(of: pickedSong, perform: tearDown)
+//        .onAppear(perform: buttonAction)
     }
 }
