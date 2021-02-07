@@ -11,6 +11,8 @@ import MediaPlayer
 import DisplayLink
 
 struct MusicPlayer: View {
+    @Binding var transformers: [Transformer]
+    
     var pickedSong: MPMediaItem?
     private var audioFile: AVAudioFile?
     
@@ -22,14 +24,25 @@ struct MusicPlayer: View {
     @State private var updaterActive = false
     @State private var paused = true
     
+//    @ObservedObject var audioEngine = Engine()
+    static let player = AVAudioPlayerNode()
+    static let engine = AVAudioEngine()
+    static let speakerNode = AVAudioEnvironmentNode()
+    static let mixer = AVAudioMixerNode()
+
     // MARK: Struct Vars
     private var playingText = "Not Playing"
     private var started = false
-    
-    let player = AVAudioPlayerNode()
-    let engine = AVAudioEngine()
+        
+    let forward = simd_float4(0, 0, -1, 0)
+    let up = simd_float4(0, 1, 0, 0)
     
     // MARK: Computed Vars
+    private var player: AVAudioPlayerNode {return MusicPlayer.player}
+    private var engine: AVAudioEngine {return MusicPlayer.engine}
+    private var speakerNode: AVAudioEnvironmentNode {return MusicPlayer.speakerNode}
+    private var mixer: AVAudioMixerNode {return MusicPlayer.mixer}
+    
     private var songSampleLength: AVAudioFramePosition {
         guard let file = audioFile else {
             return 0
@@ -66,8 +79,9 @@ struct MusicPlayer: View {
     }
         
     // MARK: Init
-    init(pickedSong: MPMediaItem?) {
+    init(pickedSong: MPMediaItem?, transformers: Binding<[Transformer]>) {
         self.pickedSong = pickedSong
+        self._transformers = transformers
         
         do {
             guard let url = pickedSong?.assetURL else {
@@ -77,13 +91,39 @@ struct MusicPlayer: View {
 
             let file = try AVAudioFile(forReading: url)
             audioFile = file
-
-            engine.attach(player)
-            engine.connect(player, to: engine.mainMixerNode, format: file.processingFormat)
-            engine.prepare()
-        
-            try engine.start()
             
+            if (!engine.isRunning) {
+                engine.attach(speakerNode)
+                
+                speakerNode.sourceMode = AVAudio3DMixingSourceMode.pointSource
+                speakerNode.position = AVAudio3DPoint(x: 10, y: 0, z: 0)
+                speakerNode.listenerPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
+                speakerNode.listenerVectorOrientation = AVAudio3DVectorOrientation(forward: AVAudio3DVector(x: 0, y: 0, z: -1), up: AVAudio3DVector(x: 0, y: 1, z: 0))
+                speakerNode.renderingAlgorithm = AVAudio3DMixingRenderingAlgorithm.sphericalHead
+                
+                speakerNode.distanceAttenuationParameters.referenceDistance = 1
+                
+                speakerNode.reverbParameters.enable = true
+                speakerNode.reverbParameters.level = -20.0
+                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.largeHall)
+                
+                engine.connect(speakerNode, to: engine.mainMixerNode, format: nil)
+                
+                try engine.start()
+                
+                engine.attach(player)
+
+                engine.connect(player, to: speakerNode, format:
+                                //file.processingFormat)
+                                AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
+                
+//                engine.prepare()
+//
+//                try engine.start()
+            } else {
+                player.stop()
+            }
+
             player.scheduleFile(file, at: nil)
             
             started = true
@@ -145,7 +185,7 @@ struct MusicPlayer: View {
         updaterActive = !pressed
     }
         
-    func resetValues() {
+    func resetValues(_ song: MPMediaItem?) {
         timeString = "0:00"
         offsetFrame = 0
         seekPos = 0
@@ -154,16 +194,14 @@ struct MusicPlayer: View {
     }
     
     func songEnd() {
-        resetValues()
+        resetValues(nil)
         if let file = audioFile {
             player.scheduleFile(file, at: nil)
         }
     }
     
-    func tearDown(_ song: MPMediaItem?) {
-        player.stop()
-        engine.stop()
-        resetValues()
+    func transformHead(_ transform: simd_float4x4) {
+        speakerNode.listenerVectorOrientation = AVAudio3DVectorOrientation(forward: AVAudio3DVector(transform * forward), up: AVAudio3DVector(transform * up))
     }
     
     // MARK: Body Definition
@@ -184,7 +222,32 @@ struct MusicPlayer: View {
             Text(playingText)
         }
         .onFrame(isActive: updaterActive, updateTicker)
-        .onChange(of: pickedSong, perform: tearDown)
-//        .onAppear(perform: buttonAction)
+        .onChange(of: pickedSong, perform: resetValues)
+        .onAppear {
+            transformers.append(transformHead)
+        }
     }
 }
+
+extension AVAudio3DVector {
+    init(_ v: simd_float4) {
+        self.init(x: v.x, y: v.y, z: v.z)
+    }
+}
+
+//class Engine: ObservableObject {
+//    let player = AVAudioPlayerNode()
+//    let engine = AVAudioEngine()
+//    let headNode = AVAudioEnvironmentNode()
+//
+//    init() {
+////        headNode.sourceMode = AVAudio3DMixingSourceMode.pointSource
+//        headNode.position = AVAudio3DPoint(x: -5, y: 5, z: 5)
+//        headNode.listenerPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
+//        headNode.listenerVectorOrientation = AVAudio3DVectorOrientation(forward: AVAudio3DVector(x: 0, y: 0, z: -1), up: AVAudio3DVector(x: 0, y: 1, z: 0))
+//        headNode.renderingAlgorithm = AVAudio3DMixingRenderingAlgorithm.sphericalHead
+//
+//        engine.attach(player)
+//        engine.attach(headNode)
+//    }
+//}

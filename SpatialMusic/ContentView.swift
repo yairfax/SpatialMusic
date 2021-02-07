@@ -56,7 +56,9 @@ struct ContentView: View {
             Button("Pick a Song") {
                 self.showingSongPicker = true
             }
-            MusicPlayer(pickedSong: pickedSong)
+            MusicPlayer(
+                pickedSong: pickedSong,
+                transformers: self.$transformers)
             HeadphoneManager(
                 state: self.$state,
                 recalibrate: self.$recalibrate,
