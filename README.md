@@ -6,4 +6,4 @@ This app uses the motion tracking hardware in AirPods Pro, and won't work withou
 
 It should be noted that this app is a work-in-progress. It doesn't support all the features you'd expect from a normal music player, including the ability to queue songs. It can also only play DRM-free songs, which means no music from Apple Music.  
 
-This project was more intended as an exploration of iOS and motion-tracking.
+This project was more intended as an exploration of iOS, motion tracking, and 3D rendering, both visual and aural.
