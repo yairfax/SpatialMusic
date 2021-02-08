@@ -24,11 +24,9 @@ struct MusicPlayer: View {
     @State private var updaterActive = false
     @State private var paused = true
     
-//    @ObservedObject var audioEngine = Engine()
     static let player = AVAudioPlayerNode()
     static let engine = AVAudioEngine()
     static let speakerNode = AVAudioEnvironmentNode()
-    static let mixer = AVAudioMixerNode()
 
     // MARK: Struct Vars
     private var playingText = "Not Playing"
@@ -41,7 +39,6 @@ struct MusicPlayer: View {
     private var player: AVAudioPlayerNode {return MusicPlayer.player}
     private var engine: AVAudioEngine {return MusicPlayer.engine}
     private var speakerNode: AVAudioEnvironmentNode {return MusicPlayer.speakerNode}
-    private var mixer: AVAudioMixerNode {return MusicPlayer.mixer}
     
     private var songSampleLength: AVAudioFramePosition {
         guard let file = audioFile else {
@@ -96,30 +93,26 @@ struct MusicPlayer: View {
                 engine.attach(speakerNode)
                 
                 speakerNode.sourceMode = AVAudio3DMixingSourceMode.pointSource
-                speakerNode.position = AVAudio3DPoint(x: 10, y: 0, z: 0)
                 speakerNode.listenerPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
                 speakerNode.listenerVectorOrientation = AVAudio3DVectorOrientation(forward: AVAudio3DVector(x: 0, y: 0, z: -1), up: AVAudio3DVector(x: 0, y: 1, z: 0))
                 speakerNode.renderingAlgorithm = AVAudio3DMixingRenderingAlgorithm.sphericalHead
                 
-                speakerNode.distanceAttenuationParameters.referenceDistance = 1
+                speakerNode.distanceAttenuationParameters.referenceDistance = 0.5
                 
                 speakerNode.reverbParameters.enable = true
                 speakerNode.reverbParameters.level = -20.0
-                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.largeHall)
+                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.smallRoom)
                 
                 engine.connect(speakerNode, to: engine.mainMixerNode, format: nil)
                 
                 try engine.start()
                 
                 engine.attach(player)
-
-                engine.connect(player, to: speakerNode, format:
-                                //file.processingFormat)
-                                AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
+                player.position = AVAudio3DPoint(x: 0.2, y: 0, z: 1)
+                player.reverbBlend = 0.5
                 
-//                engine.prepare()
-//
-//                try engine.start()
+                engine.connect(player, to: speakerNode, format:
+                                AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
             } else {
                 player.stop()
             }
@@ -234,20 +227,3 @@ extension AVAudio3DVector {
         self.init(x: v.x, y: v.y, z: v.z)
     }
 }
-
-//class Engine: ObservableObject {
-//    let player = AVAudioPlayerNode()
-//    let engine = AVAudioEngine()
-//    let headNode = AVAudioEnvironmentNode()
-//
-//    init() {
-////        headNode.sourceMode = AVAudio3DMixingSourceMode.pointSource
-//        headNode.position = AVAudio3DPoint(x: -5, y: 5, z: 5)
-//        headNode.listenerPosition = AVAudio3DPoint(x: 0, y: 0, z: 0)
-//        headNode.listenerVectorOrientation = AVAudio3DVectorOrientation(forward: AVAudio3DVector(x: 0, y: 0, z: -1), up: AVAudio3DVector(x: 0, y: 1, z: 0))
-//        headNode.renderingAlgorithm = AVAudio3DMixingRenderingAlgorithm.sphericalHead
-//
-//        engine.attach(player)
-//        engine.attach(headNode)
-//    }
-//}
