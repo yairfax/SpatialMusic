@@ -13,10 +13,6 @@ import MediaPlayer
 typealias Transformer = (simd_float4x4) -> (Void)
 
 struct ContentView: View {
-//    @State private var image: Image?
-//    @State private var showingImagePicker = false
-//    @State private var inputImage: UIImage?
-    
     @State private var state = "Disconnected"
     @State private var recalibrate = false
     @State private var clearCalibration = false
@@ -26,31 +22,14 @@ struct ContentView: View {
     
     @State private var transformers: [Transformer] = []
 
-//    func loadImage() {
-//        guard let inputImage = inputImage else { return }
-//        image = Image(uiImage: inputImage)
-//    }
-
     var body: some View {
-//        VStack{
-//            image?
-//                .resizable()
-//                .scaledToFit()
-//
-//            Button("Select Image") {
-//                self.showingImagePicker = true
-//            }
-//        }
-//        .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-//            ImagePicker(image: self.$inputImage)
-//        }
         VStack{
             HeadSceneView(
                 recalibrate: self.$recalibrate,
                 clearCalibration: self.$clearCalibration,
                 transformers: self.$transformers
             )
-            RotationText(transformers: self.$transformers)
+//            RotationText(transformers: self.$transformers)
             Text(state)
                 .padding()
             Button("Pick a Song") {

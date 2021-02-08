@@ -11,12 +11,15 @@ import MediaPlayer
 import DisplayLink
 
 struct MusicPlayer: View {
+    static let player = AVAudioPlayerNode()
+    static let engine = AVAudioEngine()
+    static let speakerNode = AVAudioEnvironmentNode()
+    
     @Binding var transformers: [Transformer]
     
-    var pickedSong: MPMediaItem?
+    private var pickedSong: MPMediaItem?
     private var audioFile: AVAudioFile?
     
-    // MARK: State Vars
     @State private var seekPos = 0.0
     @State private var offsetFrame: AVAudioFramePosition = 0
     @State private var timeString = "0:00"
@@ -24,18 +27,12 @@ struct MusicPlayer: View {
     @State private var updaterActive = false
     @State private var paused = true
     
-    static let player = AVAudioPlayerNode()
-    static let engine = AVAudioEngine()
-    static let speakerNode = AVAudioEnvironmentNode()
-
-    // MARK: Struct Vars
     private var playingText = "Not Playing"
     private var started = false
         
-    let forward = simd_float4(0, 0, -1, 0)
-    let up = simd_float4(0, 1, 0, 0)
+    private let forward = simd_float4(0, 0, -1, 0)
+    private let up = simd_float4(0, 1, 0, 0)
     
-    // MARK: Computed Vars
     private var player: AVAudioPlayerNode {return MusicPlayer.player}
     private var engine: AVAudioEngine {return MusicPlayer.engine}
     private var speakerNode: AVAudioEnvironmentNode {return MusicPlayer.speakerNode}
