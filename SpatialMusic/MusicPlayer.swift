@@ -100,8 +100,8 @@ struct MusicPlayer: View {
                 speakerNode.distanceAttenuationParameters.referenceDistance = 0.5
                 
                 speakerNode.reverbParameters.enable = true
-                speakerNode.reverbParameters.level = -20.0
-                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.smallRoom)
+                speakerNode.reverbParameters.level = -17.0
+                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.mediumRoom)
                 
                 engine.connect(speakerNode, to: engine.mainMixerNode, format: nil)
                 
@@ -109,7 +109,7 @@ struct MusicPlayer: View {
                 
                 engine.attach(player)
                 player.position = AVAudio3DPoint(x: 0.2, y: 0, z: 1)
-                player.reverbBlend = 0.5
+                player.reverbBlend = 0.8
                 
                 engine.connect(player, to: speakerNode, format:
                                 AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
