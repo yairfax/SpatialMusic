@@ -108,8 +108,8 @@ struct MusicPlayer: View {
                 try engine.start()
                 
                 engine.attach(player)
-                player.position = AVAudio3DPoint(x: 0.2, y: 0, z: 1)
-                player.reverbBlend = 0.8
+                player.position = AVAudio3DPoint(x: 0.2, y: 0, z: 3)
+                player.reverbBlend = 0.5
                 
                 engine.connect(player, to: speakerNode, format:
                                 AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
