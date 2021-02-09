@@ -27,6 +27,11 @@ struct MusicPlayer: View {
     @State private var updaterActive = false
     @State private var paused = true
     
+    @State private var reverbLevel: Float = -17
+    @State private var reverbBlend: Float = 0.5
+    @State private var obstruction: Float = 0
+    @State private var occlusion: Float = 0
+    
     private var playingText = "Not Playing"
     private var started = false
         
@@ -97,8 +102,8 @@ struct MusicPlayer: View {
                 speakerNode.distanceAttenuationParameters.referenceDistance = 0.5
                 
                 speakerNode.reverbParameters.enable = true
-                speakerNode.reverbParameters.level = -17.0
-                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.mediumRoom)
+                speakerNode.reverbParameters.level = reverbLevel
+                speakerNode.reverbParameters.loadFactoryReverbPreset(AVAudioUnitReverbPreset.smallRoom)
                 
                 engine.connect(speakerNode, to: engine.mainMixerNode, format: nil)
                 
@@ -106,7 +111,9 @@ struct MusicPlayer: View {
                 
                 engine.attach(player)
                 player.position = AVAudio3DPoint(x: 0.2, y: 0, z: 3)
-                player.reverbBlend = 0.5
+                player.obstruction = obstruction
+                player.occlusion = occlusion
+                player.reverbBlend = reverbBlend
                 
                 engine.connect(player, to: speakerNode, format:
                                 AVAudioFormat.init(standardFormatWithSampleRate: file.fileFormat.sampleRate, channels: 1))
@@ -210,6 +217,42 @@ struct MusicPlayer: View {
                 Text(timeString)
             }
             Text(playingText)
+            Text("Spatial Audio Parameters")
+                .padding()
+            VStack {
+                Slider(
+                    value: $reverbBlend,
+                    in: 0...1,
+                    onEditingChanged: {pressed in if (!pressed) {player.reverbBlend = reverbBlend}},
+                    minimumValueLabel: Text("Reverb Blend"),
+                    maximumValueLabel: Text(String(format: "%.2f", reverbBlend)),
+                    label: {return Text("Reverb Blend")}
+                )
+                Slider(
+                    value: $reverbLevel,
+                    in: -40...0,
+                    onEditingChanged: {pressed in if (!pressed) {speakerNode.reverbParameters.level = reverbLevel}},
+                    minimumValueLabel: Text("Reverb Level"),
+                    maximumValueLabel: Text(String(format: "%.2f", reverbLevel)),
+                    label: {return Text("Reverb Level")}
+                )
+                Slider(
+                    value: $occlusion,
+                    in: -100...0,
+                    onEditingChanged: {pressed in if (!pressed) {player.occlusion = occlusion}},
+                    minimumValueLabel: Text("Occlusion"),
+                    maximumValueLabel: Text(String(format: "%.2f", occlusion)),
+                    label: {return Text("Occlusion")}
+                )
+                Slider(
+                    value: $obstruction,
+                    in: -100...0,
+                    onEditingChanged: {pressed in if (!pressed) {player.obstruction = obstruction}},
+                    minimumValueLabel: Text("Obstruction"),
+                    maximumValueLabel: Text(String(format: "%.2f", obstruction)),
+                    label: {return Text("Obstruction")}
+                )
+            }
         }
         .onFrame(isActive: updaterActive, updateTicker)
         .onChange(of: pickedSong, perform: resetValues)

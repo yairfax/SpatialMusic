@@ -48,6 +48,9 @@ struct ContentView: View {
         .sheet(isPresented: $showingSongPicker) {
             SongPicker(pickedSong: self.$pickedSong)
         }
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
     }
 }
 
